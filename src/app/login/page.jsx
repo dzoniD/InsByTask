@@ -10,7 +10,7 @@ export const LoginPage = () => {
         <Image src={image} width={400} className="h-[400px]" />
       </div>
       <div className="flex  min-h-screen w-full justify-center items-center bg-white">
-        <div className="mx-4 w-[350px]">
+        <div className="mx-4 w-[480px]">
           <h2 className="text-[32px] text-custom-black font-bold mb-7">
             Log in
           </h2>
@@ -40,7 +40,7 @@ export const LoginPage = () => {
               />
             </div>
           </div>
-          <button className="h-14 bg-black font-medium text-white w-full rounded-3xl mt-6">
+          <button className="h-12 bg-black font-medium text-white w-full rounded-3xl mt-6">
             Log in
           </button>
           <div className="mt-10 flex justify-center items-center text-custom-gray">
