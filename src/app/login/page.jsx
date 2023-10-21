@@ -3,7 +3,7 @@ import React from "react";
 import image from "../../../public/login_image.png";
 import Link from "next/link";
 
-export const LoginPage = () => {
+const LoginPage = () => {
   return (
     <div className="flex min-h-screen flex-col md:flex-row ">
       <div className="md:flex hidden  min-h-screen w-full bg-custom-red  justify-center items-center">
