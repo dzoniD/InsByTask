@@ -11,7 +11,7 @@ export const LoginPage = () => {
         <Image src={image} width={400} className="h-[400px]" />
       </div>
       <div className="flex  min-h-screen w-full justify-center items-center bg-white">
-        <div className="mx-4 w-[350px]">
+        <div className="mx-4 w-[480px]">
           <h2 className="text-[32px] text-custom-black font-bold mb-7">
             Log in
           </h2>
