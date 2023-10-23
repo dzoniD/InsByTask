@@ -2,13 +2,10 @@ import Image from "next/image";
 import React from "react";
 
 const ProductItem = ({ item }) => {
-  //   console.log(item);
+  if (!item) return null;
   return (
     <div className="flex flex-col gap-10 border border-black sm:flex-row">
-      <div
-        className="relative self-center w-[80%] border border-black h-[260px] sm:w-[50%] md:w-[40%] shrink-0"
-        //   style={{ flex: "0 0 350px" }}
-      >
+      <div className="relative self-center w-[80%] border border-black h-[260px] sm:w-[50%] md:w-[40%] shrink-0">
         <Image
           src={item.image_url}
           className="object-fill rounded-3xl aspect-square"
@@ -16,10 +13,7 @@ const ProductItem = ({ item }) => {
           fill
         />
       </div>
-      <div
-        // style={{ flex: "2" }}
-        className="flex-1 flex sm:w-[40%] md:w-[60%] lg:h-[285px] flex-col justify-between gap-4 "
-      >
+      <div className="flex-1 flex sm:w-[40%] md:w-[60%] lg:h-[285px] flex-col justify-between gap-4 ">
         <h2 className="text-4xl text-custom-black self-center md:self-start font-bold">
           {item.title}
         </h2>
