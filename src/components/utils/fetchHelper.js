@@ -1,5 +1,4 @@
 export const sendData = async (formData, token) => {
-  console.log(token);
   const response = await fetch(
     " https://dev-mrp.insby.tech/api/session/customer-sign-in",
     {

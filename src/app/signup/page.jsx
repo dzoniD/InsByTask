@@ -5,7 +5,7 @@ import image from "../../../public/signup_image.png";
 import mailImage from "../../../public/mail_icon.svg";
 import SignUpForm from "@/components/SignUpForm/SignUpForm";
 
-export const SignUpPage = () => {
+const SignUpPage = () => {
   return (
     <div className="flex min-h-screen flex-col md:flex-row ">
       <div className="md:flex md:flex-2 hidden  min-h-screen w-full bg-white  justify-center items-center">
