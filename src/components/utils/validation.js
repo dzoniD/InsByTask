@@ -27,6 +27,7 @@ export const validateField = (name, value) => {
   let errMsg = {
     email: "",
     password: "",
+    confirmPassword: "",
   };
 
   if (
@@ -37,7 +38,7 @@ export const validateField = (name, value) => {
   }
 
   if (
-    name === "password" &&
+    (name === "password" || name === "confirmPassword") &&
     validation.passwordValidationRequirements.minLength.value > value.length
   ) {
     errMsg[name] = validation.passwordValidationRequirements.minLength.message;

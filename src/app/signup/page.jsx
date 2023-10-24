@@ -9,7 +9,12 @@ const SignUpPage = () => {
   return (
     <div className="flex min-h-screen flex-col md:flex-row ">
       <div className="md:flex md:flex-2 hidden  min-h-screen w-full bg-white  justify-center items-center">
-        <Image src={image} width={400} className="h-[400px]" />
+        <Image
+          alt="signup image"
+          src={image}
+          width={400}
+          className="h-[400px]"
+        />
       </div>
       <div className="flex  min-h-screen w-full justify-center items-center bg-white">
         <div className="mx-4 w-[480px] md:w-full lg:w-[480px]">

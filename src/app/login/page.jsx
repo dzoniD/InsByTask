@@ -8,7 +8,12 @@ const LoginPage = () => {
   return (
     <div className="flex min-h-screen flex-col md:flex-row ">
       <div className="md:flex hidden  min-h-screen w-full bg-custom-red  justify-center items-center">
-        <Image src={image} width={400} className="h-[400px]" />
+        <Image
+          alt="login image"
+          src={image}
+          width={400}
+          className="h-[400px]"
+        />
       </div>
       <div className="flex  min-h-screen w-full justify-center items-center bg-white">
         <div className="mx-4 w-[480px]">

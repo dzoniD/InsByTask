@@ -1,5 +1,7 @@
 import { EyeIcon } from "../icons/eyeIcon";
 import { EyeSlashIcon } from "../icons/eyeSlashIcon";
+import mailIcon from "../../../public/mail_icon.svg";
+import Image from "next/image";
 
 const InputField = ({
   label,
@@ -29,7 +31,14 @@ const InputField = ({
         required
         onChange={(e) => fn(e)}
       />
-      {name === "password" && (
+      {name === "email" && (
+        <Image
+          alt="envelope icon"
+          src={mailIcon}
+          className="absolute right-6 top-14"
+        />
+      )}
+      {(name === "password" || name === "confirmPassword") && (
         <div
           className="absolute right-2 top-12 cursor-pointer p-3"
           onClick={(e) => {
