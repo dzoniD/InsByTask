@@ -17,8 +17,8 @@ const SignUpPage = () => {
         />
       </div>
       <div className="flex  min-h-screen w-full justify-center items-center bg-white">
-        <div className="mx-4 w-[480px] md:w-full lg:w-[480px]">
-          <div className="flex gap-2 flex-col mb-24">
+        <div className="mx-4 flex flex-col justify-evenly h-full w-[480px] md:w-full lg:w-[480px]">
+          <div className="flex gap-2 flex-col">
             <h2 className="text-5xl w-max mx-auto text-custom-black font-bold ">
               Sign up
             </h2>
@@ -27,12 +27,6 @@ const SignUpPage = () => {
             </p>
           </div>
           <SignUpForm />
-          <div className="mt-10 flex justify-center items-center text-custom-gray">
-            <span>Already have an account?</span>
-            <Link href={"/login"} className="ml-1 cursor-pointer">
-              Log in
-            </Link>
-          </div>
         </div>
       </div>
     </div>

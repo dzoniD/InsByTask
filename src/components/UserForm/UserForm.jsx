@@ -65,7 +65,7 @@ const UserForm = () => {
   }
 
   return (
-    <div className="h-max w-full sm:w-3/4 md:w-2/3 lg:w-2/4 xl:w-2/4  rounded-lg px-5 py-7 flex gap-9 flex-col border ">
+    <div className="h-max w-full sm:w-3/4 md:w-2/3 lg:w-2/4 xl:w-2/4  rounded-lg px-5 py-7 flex flex-col border ">
       <div className="w-[200px] self-center h-[200px] rounded-full bg-blue-300">
         <Image src={profileImg} alt="profile pic" />
       </div>

@@ -101,7 +101,7 @@ const LoginForm = () => {
   };
 
   return (
-    <form className="flex flex-col gap-9" onSubmit={handleSubmit}>
+    <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
       {inputs?.map((item) => {
         return (
           <InputField
@@ -114,7 +114,7 @@ const LoginForm = () => {
       {formError && <div className="text-custom-red">{formError}</div>}
       <button
         type="submit"
-        className="h-12 bg-black font-medium text-white w-full rounded-3xl mt-6"
+        className="h-12 bg-black font-medium text-white w-full rounded-3xl"
       >
         Log in
       </button>

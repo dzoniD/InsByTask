@@ -5,6 +5,7 @@ import useTokenContext from "@/context/TokenContext";
 import { sendData } from "../utils/fetchHelper";
 import InputField from "../InputField/InputField";
 import { validateField } from "../utils/validation";
+import Link from "next/link";
 
 const SignUpForm = () => {
   const router = useRouter();
@@ -124,18 +125,24 @@ const SignUpForm = () => {
   };
 
   return (
-    <form className="flex flex-col gap-7" onSubmit={(e) => handleSubmit(e)}>
+    <form className="flex flex-col" onSubmit={(e) => handleSubmit(e)}>
       {inputs.map((item) => {
         return <InputField {...item} key={item.name + "1"} />;
       })}
       {formError && <div className="text-custom-red">{formError}</div>}
+
       <button
         type="submit"
-        className="h-12 bg-custom-red font-bold text-white w-full rounded-3xl mt-12"
+        className="h-12 bg-custom-red font-bold text-white w-full rounded-3xl mt-8"
       >
         Sign up
       </button>
-      <input type="submit" hidden />
+      <div className="flex justify-center mt-4 items-center text-custom-gray">
+        <span>Already have an account?</span>
+        <Link href={"/login"} className="ml-1 cursor-pointer">
+          Log in
+        </Link>
+      </div>
     </form>
   );
 };

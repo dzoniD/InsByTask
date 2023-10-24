@@ -15,7 +15,7 @@ const InputField = ({
   errorMsg,
 }) => {
   return (
-    <div className="flex flex-col gap-5 relative">
+    <div className="flex flex-col mb-4 relative">
       <label className="text-custom-black/75" htmlFor="email">
         {label}
       </label>
@@ -24,7 +24,7 @@ const InputField = ({
         id={id}
         name={name}
         placeholder={placeholder}
-        className={`rounded-3xl h-12 px-2 border border-gray-950 ${
+        className={`rounded-3xl h-12 px-2 mt-4 mb-2 border border-gray-950 ${
           errorMsg ? "border-2 border-red-600" : ""
         }`}
         value={value}
@@ -40,7 +40,7 @@ const InputField = ({
       )}
       {(name === "password" || name === "confirmPassword") && (
         <div
-          className="absolute right-2 top-12 cursor-pointer p-3"
+          className="absolute right-2 top-11 cursor-pointer p-3"
           onClick={(e) => {
             e.preventDefault();
             changePasswordVisibility(!showPassword);
@@ -49,7 +49,7 @@ const InputField = ({
           {showPassword ? <EyeIcon /> : <EyeSlashIcon />}
         </div>
       )}
-      {errorMsg && <p className="text-custom-red">{errorMsg}</p>}
+      <p className="text-custom-red h-6">{errorMsg}</p>
     </div>
   );
 };
