@@ -5,8 +5,10 @@ import React, { useCallback, useState } from "react";
 import InputField from "../InputField/InputField";
 import { validateField } from "../utils/validation";
 import { sendData } from "../utils/fetchHelper";
+import { useAuth } from "@/context/AuthContext";
 
 const LoginForm = () => {
+  const { login } = useAuth();
   const router = useRouter();
   const { token } = useTokenContext();
   const [showPassword, setShowPassword] = useState(false);
@@ -14,11 +16,11 @@ const LoginForm = () => {
 
   const [formData, setFormData] = useState({
     email: {
-      value: "test",
+      value: "",
       error: "",
     },
     password: {
-      value: "test",
+      value: "",
       error: "",
     },
   });
@@ -28,7 +30,6 @@ const LoginForm = () => {
       const { name, value } = e.target;
 
       const errMessages = validateField(name, value);
-
       setFormData((prevData) => {
         return {
           ...prevData,
@@ -88,6 +89,7 @@ const LoginForm = () => {
       const data = await sendData(body, token);
 
       if (data.data && data.data.token) {
+        login(data.data.token, data.data.customer);
         router.push("/");
       }
 
