@@ -1,147 +1,136 @@
 "use client";
 import React, { useState } from "react";
-import mailImage from "../../../public/mail_icon.svg";
-import Image from "next/image";
-import { EyeIcon } from "../icons/eyeIcon";
-import { EyeSlashIcon } from "../icons/eyeSlashIcon";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import useTokenContext from "@/context/TokenContext";
+import { sendData } from "../utils/fetchHelper";
+import InputField from "../InputField/InputField";
+import { validateField } from "../utils/validation";
 
 const SignUpForm = () => {
   const router = useRouter();
   const { token } = useTokenContext();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
-  const [passwordsMatch, setPasswordsMatch] = useState(true);
+  const [formError, setFormError] = useState("");
   const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    confirmPassword: "",
+    email: {
+      value: "",
+      error: "",
+    },
+    password: {
+      value: "",
+      error: "",
+    },
+    confirmPassword: {
+      value: "",
+      error: "",
+    },
   });
 
   const handleFieldChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
+
+    const errMessages = validateField(name, value);
+
+    setFormData((prevData) => {
+      return {
+        ...prevData,
+        [name]: {
+          value: value,
+          error: errMessages[name],
+        },
+      };
     });
   };
 
-  const sendData = async (formData) => {
-    const response = await fetch(
-      " https://dev-mrp.insby.tech/api/session/customer-sign-in",
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      }
-    );
-    const data = await response.json();
-    return data;
-  };
+  const inputs = [
+    {
+      label: "Email address",
+      type: "text",
+      id: "email",
+      name: "email",
+      placeholder: "Enter your email",
+      className: "rounded-3xl border h-12 px-2 border-gray-950",
+      value: formData.email.value,
+      fn: handleFieldChange,
+      showPassword: true,
+      errorMsg: formData.email.error,
+    },
+    {
+      label: "Password",
+      type: "password",
+      id: "password",
+      name: "password",
+      placeholder: "Enter your password",
+      className: "rounded-3xl border h-12 px-2 border-gray-950",
+      value: formData.password.value,
+      fn: handleFieldChange,
+      showPassword,
+      errorMsg: formData.password.error,
+      changePasswordVisibility: setShowPassword,
+    },
+
+    {
+      label: "Confirm password",
+      type: "password",
+      id: "confirmPassword",
+      name: "confirmPassword",
+      placeholder: "Confirm your password",
+      className: "rounded-3xl border h-12 px-2 border-gray-950",
+      value: formData.confirmPassword.value,
+      fn: handleFieldChange,
+      showPassword: showConfirmPassword,
+      errorMsg: formData.confirmPassword.error,
+      changePasswordVisibility: setShowConfirmPassword,
+    },
+  ];
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (
+      formData.email.error ||
+      formData.password.error ||
+      formData.confirmPassword.error
+    ) {
+      return;
+    }
+
+    const passwordsMatch =
+      formData.password.value === formData.confirmPassword.value;
+
+    if (!passwordsMatch) {
+      setFormError("Passwords do not match");
+      return;
+    }
+
+    setFormError("");
 
     const body = {
       autoRegister: true,
-      login: formData.email,
-      password: formData.password,
-      confirmPassword: formData.confirmPassword,
+      login: formData.email.value,
+      password: formData.password.value,
+      confirmPassword: formData.confirmPassword.value,
     };
 
-    const passwordsMatch = formData.password === formData.confirmPassword;
+    const data = await sendData(body, token);
 
-    setPasswordsMatch(passwordsMatch);
-
-    if (passwordsMatch) {
-      const data = await sendData(body);
-      if (data.data.token) {
-        router.push("/login");
-      }
+    if (data.errors) {
+      const resError = data.errors.sessions[0].split(".")[2];
+      setFormError(resError);
+    }
+    if (data.data && data.data.token) {
+      router.push("/login");
     }
   };
 
   return (
-    <form className="flex flex-col gap-7" onSubmit={handleSubmit}>
-      <div className="flex flex-col gap-4 relative">
-        <label className="text-custom-black/75" htmlFor="email">
-          Email
-        </label>
-        <input
-          type="text"
-          id="email"
-          name="email"
-          placeholder="Enter your email address"
-          value={formData.email}
-          onChange={(e) => handleFieldChange(e)}
-          required
-          className="rounded-3xl border h-12 px-2 border-gray-950"
-        />
-        <Image src={mailImage} className="absolute right-6 top-14" />
-      </div>
-      <div className="flex flex-col gap-4 relative">
-        <label className="text-custom-black/75" htmlFor="password">
-          Create a password
-        </label>
-        <input
-          type={showPassword ? "text" : "password"}
-          id="password"
-          name="password"
-          placeholder="Enter a strong password"
-          className="rounded-3xl h-12 px-2 border border-gray-950"
-          value={formData.password}
-          required
-          onChange={(e) => handleFieldChange(e)}
-        />
-        <button
-          className="absolute right-2 top-11 cursor-pointer p-3"
-          onClick={(e) => {
-            e.preventDefault();
-            setShowPassword(!showPassword);
-          }}
-        >
-          {showPassword ? <EyeIcon /> : <EyeSlashIcon />}
-        </button>
-      </div>
-      <div className="flex flex-col gap-4 relative">
-        <label className="text-custom-black/75" htmlFor="password">
-          Confirm password
-        </label>
-        <input
-          type={showConfirmPassword ? "text" : "password"}
-          id="confirmPassword"
-          name="confirmPassword"
-          placeholder="Confirm your password"
-          className={`rounded-3xl h-12 px-2 border border-gray-950 ${
-            passwordsMatch ? "" : "border-2 border-red-600"
-          }`}
-          value={formData.confirmPassword}
-          required
-          onChange={(e) => handleFieldChange(e)}
-        />
-        {passwordsMatch ? (
-          ""
-        ) : (
-          <p className="text-custom-red ">Passwords don't match</p>
-        )}
-        <button
-          className="absolute right-2 top-11 cursor-pointer p-3"
-          onClick={(e) => {
-            e.preventDefault();
-            setShowConfirmPassword(!showConfirmPassword);
-          }}
-        >
-          {showConfirmPassword ? <EyeIcon /> : <EyeSlashIcon />}
-        </button>
-      </div>
+    <form className="flex flex-col gap-7" onSubmit={(e) => handleSubmit(e)}>
+      {inputs.map((item) => {
+        return <InputField {...item} key={item.name + "1"} />;
+      })}
+      {formError && <div className="text-custom-red">{formError}</div>}
       <button
-        onClick={handleSubmit}
+        type="submit"
         className="h-12 bg-custom-red font-bold text-white w-full rounded-3xl mt-12"
       >
         Sign up
