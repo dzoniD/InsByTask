@@ -1,19 +1,5 @@
 import ProductItem from "../ProductItem/ProductItem";
-
-async function getProducts(token) {
-  const response = await fetch(
-    "https://dev-mrp.insby.tech/api/v2/session/product",
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
-
-  const data = await response.json();
-
-  return data;
-}
+import { getProducts } from "@/utils/fetchHelper";
 
 export const ProductList = async ({ token }) => {
   const products = await getProducts(token);

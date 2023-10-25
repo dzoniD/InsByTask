@@ -5,7 +5,6 @@ import useTokenContext from "@/context/TokenContext";
 import { sendCredentials } from "../../utils/fetchHelper";
 import InputField from "../InputField/InputField";
 import Link from "next/link";
-import { baseInputClasses } from "../../utils/constants";
 import { useInputsState } from "@/hooks/useInputsState";
 
 const SignUpForm = () => {
@@ -37,10 +36,10 @@ const SignUpForm = () => {
       id: "email",
       name: "email",
       placeholder: "Enter your email",
-      className: baseInputClasses,
       value: formData.email.value,
       fn: handleFieldChange,
       showPassword: true,
+      disabled: false,
       errorMsg: formData.email.error,
     },
     {
@@ -49,10 +48,10 @@ const SignUpForm = () => {
       id: "password",
       name: "password",
       placeholder: "Enter your password",
-      className: baseInputClasses,
       value: formData.password.value,
       fn: handleFieldChange,
       showPassword,
+      disabled: false,
       errorMsg: formData.password.error,
       changePasswordVisibility: setShowPassword,
     },
@@ -63,10 +62,10 @@ const SignUpForm = () => {
       id: "confirmPassword",
       name: "confirmPassword",
       placeholder: "Confirm your password",
-      className: baseInputClasses,
       value: formData.confirmPassword.value,
       fn: handleFieldChange,
       showPassword: showConfirmPassword,
+      disabled: false,
       errorMsg: formData.confirmPassword.error,
       changePasswordVisibility: setShowConfirmPassword,
     },
@@ -93,20 +92,20 @@ const SignUpForm = () => {
     setFormError("");
 
     const body = {
-      //mozda klasa
       autoRegister: true,
       login: formData.email.value,
       password: formData.password.value,
       confirmPassword: formData.confirmPassword.value,
     };
 
-    const data = await sendCredentials(body, token);
-    console.log(data);
-    if (data.errors) {
-      const resError = data.errors.sessions[0].split(".")[2];
-      setFormError(resError);
+    const responseData = await sendCredentials(body, token);
+
+    if (responseData.sessions) {
+      const resErrorMsg = responseData.sessions[0].split(".")[2];
+      setFormError(resErrorMsg);
     }
-    if (data && data.token) {
+
+    if (responseData && responseData.token) {
       router.push("/login");
     }
   };

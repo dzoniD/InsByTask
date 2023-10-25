@@ -2,7 +2,6 @@ import { EyeIcon } from "../icons/eyeIcon";
 import { EyeSlashIcon } from "../icons/eyeSlashIcon";
 import mailIcon from "../../../public/mail_icon.svg";
 import Image from "next/image";
-import { baseInputClasses } from "../../utils/constants";
 
 const InputField = ({
   label,
@@ -14,6 +13,7 @@ const InputField = ({
   showPassword,
   changePasswordVisibility,
   errorMsg,
+  disabled,
 }) => {
   return (
     <div className="flex flex-col mb-4 relative">
@@ -25,23 +25,24 @@ const InputField = ({
         id={id}
         name={name}
         placeholder={placeholder}
-        className={`${baseInputClasses} ${
+        className={`inputBase mt-5 mb-2 ${
           errorMsg ? "border-2 border-red-600" : ""
         }`}
         value={value}
         required
         onChange={(e) => fn(e)}
+        disabled={disabled}
       />
       {name === "email" && (
         <Image
           alt="envelope icon"
           src={mailIcon}
-          className="absolute right-6 top-14"
+          className="absolute right-5 top-14"
         />
       )}
       {(name === "password" || name === "confirmPassword") && (
         <div
-          className="absolute right-2 top-11 cursor-pointer p-3"
+          className="absolute right-2 top-12 cursor-pointer p-3"
           onClick={(e) => {
             e.preventDefault();
             changePasswordVisibility(!showPassword);

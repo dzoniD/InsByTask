@@ -1,28 +1,24 @@
 "use client";
 import { validateField } from "@/utils/validation";
-import React, { useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 
 export const useInputsState = (state) => {
   const [formData, setFormData] = useState(state);
 
-  const handleFieldChange = useCallback(
-    (e) => {
-      const { name, value } = e.target;
+  const handleFieldChange = useCallback((e) => {
+    const { name, value } = e.target;
 
-      const errMessages = validateField(name, value);
-      setFormData((prevData) => {
-        console.log("custom hook");
-        return {
-          ...prevData,
-          [name]: {
-            value: value,
-            error: errMessages[name],
-          },
-        };
-      });
-    },
-    [formData]
-  );
+    const errMessages = validateField(name, value);
+    setFormData((prevData) => {
+      return {
+        ...prevData,
+        [name]: {
+          value: value,
+          error: errMessages[name],
+        },
+      };
+    });
+  }, []);
 
   return {
     formData,
