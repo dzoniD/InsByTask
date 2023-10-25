@@ -1,5 +1,5 @@
 import ProductList from "@/components/ProductList/ProductList";
-import { getToken } from "@/components/utils/fetchHelper";
+import { getToken } from "@/utils/fetchHelper";
 import Link from "next/link";
 
 export default async function Home() {

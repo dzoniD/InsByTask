@@ -2,11 +2,10 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import useTokenContext from "@/context/TokenContext";
-import { sendCredentials } from "../utils/fetchHelper";
+import { sendCredentials } from "../../utils/fetchHelper";
 import InputField from "../InputField/InputField";
-import { validateField } from "../utils/validation";
 import Link from "next/link";
-import { baseInputClasses } from "../utils/constants";
+import { baseInputClasses } from "../../utils/constants";
 import { useInputsState } from "@/hooks/useInputsState";
 
 const SignUpForm = () => {

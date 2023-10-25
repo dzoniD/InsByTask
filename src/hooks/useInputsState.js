@@ -1,5 +1,5 @@
 "use client";
-import { validateField } from "@/components/utils/validation";
+import { validateField } from "@/utils/validation";
 import React, { useCallback, useState } from "react";
 
 export const useInputsState = (state) => {

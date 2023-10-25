@@ -2,7 +2,7 @@ import Image from "next/image";
 import React from "react";
 import loginImage from "../../../public/login_image.png";
 import Link from "next/link";
-import LoginForm from "@/components/LoginForm/loginForm";
+import LoginForm from "../../components/LoginForm/LoginForm";
 
 const LoginPage = () => {
   return (

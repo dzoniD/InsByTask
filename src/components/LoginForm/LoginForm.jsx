@@ -3,9 +3,9 @@ import useTokenContext from "@/context/TokenContext";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import InputField from "../InputField/InputField";
-import { sendCredentials } from "../utils/fetchHelper";
+import { sendCredentials } from "../../utils/fetchHelper";
 import { useAuth } from "@/context/AuthContext";
-import { baseInputClasses } from "../utils/constants";
+import { baseInputClasses } from "../../utils/constants";
 import { useInputsState } from "@/hooks/useInputsState";
 
 const LoginForm = () => {

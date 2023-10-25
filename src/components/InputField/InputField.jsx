@@ -2,7 +2,7 @@ import { EyeIcon } from "../icons/eyeIcon";
 import { EyeSlashIcon } from "../icons/eyeSlashIcon";
 import mailIcon from "../../../public/mail_icon.svg";
 import Image from "next/image";
-import { baseInputClasses } from "../utils/constants";
+import { baseInputClasses } from "../../utils/constants";
 
 const InputField = ({
   label,
