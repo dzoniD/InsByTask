@@ -25,6 +25,8 @@ const LoginForm = () => {
     },
   });
 
+  const { email, password } = formData;
+
   const inputs = [
     {
       label: "Email address",
@@ -32,11 +34,11 @@ const LoginForm = () => {
       id: "email",
       name: "email",
       placeholder: "Enter your email",
-      value: formData.email.value,
+      value: email.value,
       fn: handleFieldChange,
       showPassword: true,
       disabled: false,
-      errorMsg: formData.email.error,
+      errorMsg: email.error,
     },
     {
       label: "Password",
@@ -44,18 +46,17 @@ const LoginForm = () => {
       id: "password",
       name: "password",
       placeholder: "Enter your password",
-      value: formData.password.value,
+      value: password.value,
       fn: handleFieldChange,
       showPassword,
       disabled: false,
-      errorMsg: formData.password.error,
+      errorMsg: password.error,
       changePasswordVisibility: setShowPassword,
     },
   ];
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { email, password } = formData;
 
     if (email.error || password.error) {
       return;

@@ -29,6 +29,8 @@ const SignUpForm = () => {
     },
   });
 
+  const { email, password, confirmPassword } = formData;
+
   const inputs = [
     {
       label: "Email address",
@@ -36,11 +38,11 @@ const SignUpForm = () => {
       id: "email",
       name: "email",
       placeholder: "Enter your email",
-      value: formData.email.value,
+      value: email.value,
       fn: handleFieldChange,
       showPassword: true,
       disabled: false,
-      errorMsg: formData.email.error,
+      errorMsg: email.error,
     },
     {
       label: "Password",
@@ -48,11 +50,11 @@ const SignUpForm = () => {
       id: "password",
       name: "password",
       placeholder: "Enter your password",
-      value: formData.password.value,
+      value: password.value,
       fn: handleFieldChange,
       showPassword,
       disabled: false,
-      errorMsg: formData.password.error,
+      errorMsg: password.error,
       changePasswordVisibility: setShowPassword,
     },
 
@@ -62,27 +64,22 @@ const SignUpForm = () => {
       id: "confirmPassword",
       name: "confirmPassword",
       placeholder: "Confirm your password",
-      value: formData.confirmPassword.value,
+      value: confirmPassword.value,
       fn: handleFieldChange,
       showPassword: showConfirmPassword,
       disabled: false,
-      errorMsg: formData.confirmPassword.error,
+      errorMsg: confirmPassword.error,
       changePasswordVisibility: setShowConfirmPassword,
     },
   ];
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (
-      formData.email.error ||
-      formData.password.error ||
-      formData.confirmPassword.error
-    ) {
+    if (email.error || password.error || confirmPassword.error) {
       return;
     }
 
-    const passwordsMatch =
-      formData.password.value === formData.confirmPassword.value;
+    const passwordsMatch = password.value === confirmPassword.value;
 
     if (!passwordsMatch) {
       setFormError("Passwords do not match");
@@ -93,9 +90,9 @@ const SignUpForm = () => {
 
     const body = {
       autoRegister: true,
-      login: formData.email.value,
-      password: formData.password.value,
-      confirmPassword: formData.confirmPassword.value,
+      login: email.value,
+      password: password.value,
+      confirmPassword: confirmPassword.value,
     };
 
     const responseData = await sendCredentials(body, token);
