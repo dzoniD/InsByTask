@@ -2,10 +2,12 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import useTokenContext from "@/context/TokenContext";
-import { sendData } from "../utils/fetchHelper";
+import { sendCredentials } from "../utils/fetchHelper";
 import InputField from "../InputField/InputField";
 import { validateField } from "../utils/validation";
 import Link from "next/link";
+import { baseInputClasses } from "../utils/constants";
+import { useInputsState } from "@/hooks/useInputsState";
 
 const SignUpForm = () => {
   const router = useRouter();
@@ -13,7 +15,8 @@ const SignUpForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formError, setFormError] = useState("");
-  const [formData, setFormData] = useState({
+
+  const { formData, handleFieldChange } = useInputsState({
     email: {
       value: "",
       error: "",
@@ -28,22 +31,6 @@ const SignUpForm = () => {
     },
   });
 
-  const handleFieldChange = (e) => {
-    const { name, value } = e.target;
-
-    const errMessages = validateField(name, value);
-
-    setFormData((prevData) => {
-      return {
-        ...prevData,
-        [name]: {
-          value: value,
-          error: errMessages[name],
-        },
-      };
-    });
-  };
-
   const inputs = [
     {
       label: "Email address",
@@ -51,7 +38,7 @@ const SignUpForm = () => {
       id: "email",
       name: "email",
       placeholder: "Enter your email",
-      className: "rounded-3xl border h-12 px-2 border-gray-950",
+      className: baseInputClasses,
       value: formData.email.value,
       fn: handleFieldChange,
       showPassword: true,
@@ -63,7 +50,7 @@ const SignUpForm = () => {
       id: "password",
       name: "password",
       placeholder: "Enter your password",
-      className: "rounded-3xl border h-12 px-2 border-gray-950",
+      className: baseInputClasses,
       value: formData.password.value,
       fn: handleFieldChange,
       showPassword,
@@ -77,7 +64,7 @@ const SignUpForm = () => {
       id: "confirmPassword",
       name: "confirmPassword",
       placeholder: "Confirm your password",
-      className: "rounded-3xl border h-12 px-2 border-gray-950",
+      className: baseInputClasses,
       value: formData.confirmPassword.value,
       fn: handleFieldChange,
       showPassword: showConfirmPassword,
@@ -107,19 +94,20 @@ const SignUpForm = () => {
     setFormError("");
 
     const body = {
+      //mozda klasa
       autoRegister: true,
       login: formData.email.value,
       password: formData.password.value,
       confirmPassword: formData.confirmPassword.value,
     };
 
-    const data = await sendData(body, token);
-
+    const data = await sendCredentials(body, token);
+    console.log(data);
     if (data.errors) {
       const resError = data.errors.sessions[0].split(".")[2];
       setFormError(resError);
     }
-    if (data.data && data.data.token) {
+    if (data && data.token) {
       router.push("/login");
     }
   };
@@ -127,7 +115,7 @@ const SignUpForm = () => {
   return (
     <form className="flex flex-col" onSubmit={(e) => handleSubmit(e)}>
       {inputs.map((item) => {
-        return <InputField {...item} key={item.name + "1"} />;
+        return <InputField {...item} key={item.id} />;
       })}
       {formError && <div className="text-custom-red">{formError}</div>}
 

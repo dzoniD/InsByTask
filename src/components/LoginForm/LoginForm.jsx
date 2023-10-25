@@ -1,11 +1,12 @@
 "use client";
 import useTokenContext from "@/context/TokenContext";
 import { useRouter } from "next/navigation";
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import InputField from "../InputField/InputField";
-import { validateField } from "../utils/validation";
-import { sendData } from "../utils/fetchHelper";
+import { sendCredentials } from "../utils/fetchHelper";
 import { useAuth } from "@/context/AuthContext";
+import { baseInputClasses } from "../utils/constants";
+import { useInputsState } from "@/hooks/useInputsState";
 
 const LoginForm = () => {
   const { login } = useAuth();
@@ -14,7 +15,7 @@ const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [formError, setFormError] = useState("");
 
-  const [formData, setFormData] = useState({
+  const { formData, handleFieldChange } = useInputsState({
     email: {
       value: "",
       error: "",
@@ -25,24 +26,6 @@ const LoginForm = () => {
     },
   });
 
-  const handleFieldChange = useCallback(
-    (e) => {
-      const { name, value } = e.target;
-
-      const errMessages = validateField(name, value);
-      setFormData((prevData) => {
-        return {
-          ...prevData,
-          [name]: {
-            value: value,
-            error: errMessages[name],
-          },
-        };
-      });
-    },
-    [formData]
-  );
-
   const inputs = [
     {
       label: "Email address",
@@ -50,7 +33,7 @@ const LoginForm = () => {
       id: "email",
       name: "email",
       placeholder: "Enter your email",
-      className: "rounded-3xl border h-12 px-2 border-gray-950",
+      className: baseInputClasses,
       value: formData.email.value,
       fn: handleFieldChange,
       showPassword: true,
@@ -62,7 +45,7 @@ const LoginForm = () => {
       id: "password",
       name: "password",
       placeholder: "Enter your password",
-      className: "rounded-3xl border h-12 px-2 border-gray-950",
+      className: baseInputClasses,
       value: formData.password.value,
       fn: handleFieldChange,
       showPassword,
@@ -73,28 +56,26 @@ const LoginForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const { email, password } = formData;
 
     const body = {
       autoRegister: true,
-      login: formData.email.value,
-      password: formData.password.value,
+      login: email.value,
+      password: password.value,
     };
 
-    if (
-      formData.email.value &&
-      formData.password.value &&
-      !formData.email.error &&
-      !formData.password.error
-    ) {
-      const data = await sendData(body, token);
+    if (email.value && password.value && !email.error && !password.error) {
+      const responseData = await sendCredentials(body, token);
 
-      if (data.data && data.data.token) {
-        login(data.data.token, data.data.customer);
+      if (responseData && responseData.token) {
+        //todo:proveri ovaj deo
+        //todo:rename data
+        login(responseData.token, responseData.customer);
         router.push("/");
       }
 
-      if (data.errors) {
-        const resError = data.errors.sessions[0].split(".")[2];
+      if (responseData.errors) {
+        const resError = responseData.errors.sessions[0].split(".")[2];
         setFormError(resError);
       }
     }
@@ -103,13 +84,7 @@ const LoginForm = () => {
   return (
     <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
       {inputs?.map((item) => {
-        return (
-          <InputField
-            {...item}
-            key={item.id + "2"}
-            change={handleFieldChange}
-          />
-        );
+        return <InputField {...item} key={item.id} />;
       })}
       {formError && <div className="text-custom-red">{formError}</div>}
       <button
