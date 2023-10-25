@@ -2,6 +2,7 @@ import { EyeIcon } from "../icons/eyeIcon";
 import { EyeSlashIcon } from "../icons/eyeSlashIcon";
 import mailIcon from "../../../public/mail_icon.svg";
 import Image from "next/image";
+import { baseInputClasses } from "../utils/constants";
 
 const InputField = ({
   label,
@@ -16,7 +17,7 @@ const InputField = ({
 }) => {
   return (
     <div className="flex flex-col mb-4 relative">
-      <label className="text-custom-black/75" htmlFor="email">
+      <label className="text-custom-black/75" htmlFor={id}>
         {label}
       </label>
       <input
@@ -24,7 +25,7 @@ const InputField = ({
         id={id}
         name={name}
         placeholder={placeholder}
-        className={`rounded-3xl h-12 px-2 mt-4 mb-2 border border-gray-950 ${
+        className={`${baseInputClasses} ${
           errorMsg ? "border-2 border-red-600" : ""
         }`}
         value={value}

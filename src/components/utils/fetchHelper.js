@@ -1,19 +1,23 @@
-import { uuid } from "uuidv4";
+const { uuid } = require("uuidv4");
 
-export const sendData = async (formData, token) => {
-  const response = await fetch(
-    " https://dev-mrp.insby.tech/api/session/customer-sign-in",
-    {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    }
-  );
-  const data = await response.json();
-  return data;
+export const sendCredentials = async (formData, token) => {
+  try {
+    const response = await fetch(
+      " https://dev-mrp.insby.tech/api/session/customer-sign-in",
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      }
+    );
+    const data = await response.json();
+    return data.data;
+  } catch (error) {
+    return error;
+  }
 };
 
 export const getToken = async () => {
@@ -24,15 +28,22 @@ export const getToken = async () => {
     "utf8"
   ).toString("base64");
 
-  const response = await fetch(" https://dev-mrp.insby.tech/api/v2/init/app", {
-    method: "POST",
-    headers: {
-      Authorization: `Basic ${encodedUsernameAndPassword}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ uuid: `${uuids}`, uuidOS: "Windows" }),
-  });
+  try {
+    const response = await fetch(
+      " https://dev-mrp.insby.tech/api/v2/init/app",
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Basic ${encodedUsernameAndPassword}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ uuid: `${uuids}`, uuidOS: "Windows" }),
+      }
+    );
 
-  const data = await response.json();
-  return data.data.token;
+    const data = await response.json();
+    return data.data.token;
+  } catch (error) {
+    return error;
+  }
 };

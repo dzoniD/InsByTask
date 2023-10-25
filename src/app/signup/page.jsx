@@ -1,8 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
-import React from "react";
-import image from "../../../public/signup_image.png";
-import mailImage from "../../../public/mail_icon.svg";
+import signupImage from "../../../public/signup_image.png";
 import SignUpForm from "@/components/SignUpForm/SignUpForm";
 
 const SignUpPage = () => {
@@ -11,7 +8,7 @@ const SignUpPage = () => {
       <div className="md:flex md:flex-2 hidden  min-h-screen w-full bg-white  justify-center items-center">
         <Image
           alt="signup image"
-          src={image}
+          src={signupImage}
           width={400}
           className="h-[400px]"
         />
