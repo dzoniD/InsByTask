@@ -9,7 +9,7 @@ const InputField = ({
   name,
   placeholder,
   value,
-  fn,
+  handleChange,
   showPassword,
   changePasswordVisibility,
   errorMsg,
@@ -30,7 +30,7 @@ const InputField = ({
         }`}
         value={value}
         required
-        onChange={(e) => fn(e)}
+        onChange={(e) => handleChange(e)}
         disabled={disabled}
       />
       {name === "email" && (
